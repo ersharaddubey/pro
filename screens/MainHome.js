@@ -17,12 +17,15 @@ const { width } = Dimensions.get("window");
 function SubscribeShareButtons() {
   return (
     <View className="flex-row items-center bg-black/60 px-3 py-2 rounded-full">
-      <TouchableOpacity className="flex-row items-center bg-white rounded-full px-4 py-2 mr-3">
-        <FontAwesome5 name="crown" size={18} color="#222" />
-        <Text className="ml-2 text-black font-semibold text-base">
+      {/* 🔹 Subscribe Button */}
+      <TouchableOpacity className="flex-row items-center bg-accent rounded-full px-4 py-2 mr-3">
+        <FontAwesome5 name="crown" size={18} color="#fff" />
+        <Text className="ml-2 text-white font-semibold text-base">
           Subscribe Now
         </Text>
       </TouchableOpacity>
+
+      {/* 🔹 Share Button */}
       <TouchableOpacity className="bg-red-600 rounded-full p-2">
         <Ionicons name="share-social" size={20} color="#fff" />
       </TouchableOpacity>
@@ -43,8 +46,18 @@ const sections = [
   {
     section: "Top Shows",
     items: [
-      { id: "1", title: "WTF is with Nikhil", author: "Nikhil Kamath", image: IMAGE_URL },
-      { id: "2", title: "Poetry Sessions", author: "Nevadit Chaudhary", image: IMAGE_URL },
+      {
+        id: "1",
+        title: "WTF is with Nikhil",
+        author: "Nikhil Kamath",
+        image: IMAGE_URL,
+      },
+      {
+        id: "2",
+        title: "Poetry Sessions",
+        author: "Nevadit Chaudhary",
+        image: IMAGE_URL,
+      },
     ],
   },
   {
@@ -61,6 +74,7 @@ export default function MainHome() {
   const insets = useSafeAreaInsets();
 
   const renderSection = ({ item }) => {
+    // 🔹 Slider Section
     if (item.type === "slider") {
       return (
         <View className="mb-5 px-4">
@@ -85,6 +99,7 @@ export default function MainHome() {
       );
     }
 
+    // 🔹 Content Sections
     return (
       <View className="my-3 px-4">
         <Text className="text-white text-lg font-bold mb-2">
@@ -103,10 +118,13 @@ export default function MainHome() {
                 source={{ uri: it.image }}
                 className="w-full h-36 rounded-lg"
               />
-              <Text className="text-white font-semibold mt-1" numberOfLines={1}>
+              <Text
+                className="text-white font-semibold mt-1"
+                numberOfLines={1}
+              >
                 {it.title}
               </Text>
-              <Text className="text-gray-400 text-xs">{it.author}</Text>
+              <Text className="text-textDim text-xs">{it.author}</Text>
             </TouchableOpacity>
           )}
           showsHorizontalScrollIndicator={false}
@@ -118,13 +136,15 @@ export default function MainHome() {
   const listData = [{ type: "slider", id: "slider" }, ...sections];
 
   return (
-    <SafeAreaView style={{ paddingTop: insets.top }} className="flex-1 bg-black">
+    <SafeAreaView
+      style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}
+      className="flex-1 bg-bg"
+    >
       <FlatList
         data={listData}
         keyExtractor={(item, index) => item.id || index.toString()}
         renderItem={renderSection}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: insets.bottom }}
       />
     </SafeAreaView>
   );

@@ -1,21 +1,21 @@
 // tailwind.config.js
 module.exports = {
-  content: ["./App.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./App.{js,jsx,ts,tsx}", "./screens/**/*.{js,jsx,ts,tsx}"], // अगर src folder नहीं है तो screens डालो
   theme: {
     extend: {
       colors: {
-        bg: "#000000",        // background black
-        text: "#ffffff",      // main white text
-        textDim: "#aaaaaa",   // dim gray text
-        accent: "#FF6F00",    // primary orange
-        accentAlt: "#FF7A00", // lighter orange
-        border: "#333333",    // border gray
-        card: "#222222",      // dark card
-        cardAlt: "#1A1A1A",   // darker card
-        textDark: "#222222",  // dark text (on light bg)
-        danger: "#FF0000",    // error / danger
+        bg: "#000000",
+        text: "#ffffff",
+        textDim: "#aaaaaa",
+        accent: "#FF6F00",
+        border: "#333333",
+        card: "#222222",
+        cardAlt: "#1A1A1A",
+        accentAlt: "#FF7A00",
+        textDark: "#222222",
+        danger: "#FF0000",
       },
     },
   },
-  plugins: [],
+  plugins: [], // ✅ यहीं allowed है
 };
