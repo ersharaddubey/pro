@@ -9,7 +9,6 @@ import {
   Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { palette, spacing, typography, radius } from "../Components/theme";
 
 const { width } = Dimensions.get("window");
 

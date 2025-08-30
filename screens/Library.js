@@ -6,7 +6,6 @@ import {
   StyleSheet,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { palette, spacing, typography, radius } from "../Components/theme";
 
 export default function HungamaScreen() {
   const [activeTopTab, setActiveTopTab] = useState("Audio");
@@ -22,7 +21,7 @@ export default function HungamaScreen() {
   const getSubTabs = () => subTabs[activeTopTab] || [];
 
   return (
-    <LinearGradient colors={["#000", "#000"]} style={styles.container}>
+    <LinearGradient colors={["#000", "#111"]} style={styles.container}>
       {/* Top Tabs */}
       <View style={styles.topTabs}>
         {topTabs.map((tab) => (
@@ -75,11 +74,11 @@ export default function HungamaScreen() {
       {/* Content */}
       <View style={styles.content}>
         <Text style={styles.emptyStateText}>
-          Add {activeSubTab.toLowerCase()} content to your library{"\n"}
-          Explore some new {activeTopTab.toLowerCase()} content and videos now
+          No {activeSubTab.toLowerCase()} {activeTopTab.toLowerCase()} yet 🎶{"\n"}
+          Explore and add to your library now!
         </Text>
 
-        <TouchableOpacity style={styles.exploreButton}>
+        <TouchableOpacity style={styles.exploreButton} activeOpacity={0.8}>
           <Text style={styles.exploreButtonText}>Explore {activeTopTab}</Text>
         </TouchableOpacity>
       </View>
@@ -90,20 +89,21 @@ export default function HungamaScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
     paddingTop: 48,
   },
 
   topTabs: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingVertical: 12,
+    paddingVertical: 10,
     backgroundColor: "#111",
+    borderBottomWidth: 1,
+    borderBottomColor: "#222",
   },
 
   topTab: {
     paddingVertical: 6,
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     borderRadius: 20,
   },
 
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 
   topTabText: {
     color: "#aaa",
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "500",
   },
 
@@ -124,17 +124,17 @@ const styles = StyleSheet.create({
 
   subTabs: {
     flexDirection: "row",
-    backgroundColor: "#000",
     paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingVertical: 6,
+    backgroundColor: "#000",
   },
 
   subTab: {
     flex: 1,
     marginHorizontal: 4,
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderRadius: 18,
-    backgroundColor: "#222",
+    backgroundColor: "#1c1c1c",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
 
   activeSubTabText: {
     color: "#fff",
-    fontWeight: "600",
+    fontWeight: "700",
   },
 
   content: {
@@ -166,19 +166,25 @@ const styles = StyleSheet.create({
     color: "#ccc",
     fontSize: 16,
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 24,
+    lineHeight: 22,
   },
 
   exploreButton: {
     backgroundColor: "#FF6F00",
     paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 24,
+    paddingHorizontal: 36,
+    borderRadius: 30,
+    shadowColor: "#FF6F00",
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 4,
   },
 
   exploreButtonText: {
     color: "#fff",
     fontWeight: "700",
-    fontSize: 14,
+    fontSize: 15,
+    textTransform: "uppercase",
   },
 });

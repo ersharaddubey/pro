@@ -1,85 +1,30 @@
-import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Section } from '../Components/Section';
-import { SubscribeBanner } from '../Components/SubscribeBanner';
-import { palette, spacing, typography, radius } from "../Components/theme";
+import React from "react";
+import { View, Text, SafeAreaView, Pressable } from "react-native";
 
-
-export function SettingsScreen({ navigation }) {
+export default function SettingsScreen({ navigation }) {
   return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.container}>
-        <ScrollView
-          contentContainerStyle={styles.content}
-          showsVerticalScrollIndicator={false}
-          contentInsetAdjustmentBehavior="automatic"
-        >
-          <Section title="General Settings">
-            <Row title="Notifications" valueText="On" rightType="value" />
-            <Separator />
-            <Row title="App Language" valueText="English" rightType="value" />
-            <Separator />
-            <Row title="Display Explicit Content" valueText="Off" rightType="value" />
-          </Section>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#111", padding: 20 }}>
+      <Text style={{ color: "#fff", fontSize: 22, fontWeight: "700" }}>
+        Settings
+      </Text>
 
-          <Section title="Manage My Hungama OTT" subtitle="Current Plan: Free User">
-            <Row
-              title="Change Plan"
-              subtitle="Unlock unlimited streaming"
-              rightType="chevron"
-              onPress={() => {}}
-            />
-          </Section>
+      <Text style={{ color: "#aaa", marginTop: 10 }}>
+        Here you can manage notifications, language, and privacy options.
+      </Text>
 
-          <Section title="Audio Playback Settings">
-            <Row title="Audio Quality" valueText="High" rightType="value" />
-            <Separator />
-            <Row title="Audio Language" valueText="Hindi, English" rightType="value" />
-            <Separator />
-            <Row title="Sleep Timer" valueText="30 min" rightType="value" />
-          </Section>
-
-          <Section title="Video Playback Settings">
-            <Row title="Autoplay" valueText="On" rightType="value" />
-            <Separator />
-            <Row title="Video Quality" valueText="Auto" rightType="value" />
-          </Section>
-
-          <Section title="General">
-            <Row title="Share Hungama OTT" rightType="chevron" onPress={() => {}} />
-            <Separator />
-            <Row title="Help & Support" rightType="chevron" onPress={() => {}} />
-            <Separator />
-            <Row title="Terms & Conditions" rightType="chevron" onPress={() => {}} />
-            <Separator />
-            <Row title="Privacy Policy" rightType="chevron" onPress={() => {}} />
-            <Separator />
-            <Row title="Delete Your Account" destructive rightType="chevron" onPress={() => {}} />
-            <Separator />
-            <Row title="Log Out" destructive rightType="chevron" onPress={() => {}} />
-          </Section>
-        </ScrollView>
-
-        <SubscribeBanner onSubscribe={() => {}} />
-      </View>
+      <Pressable
+        style={{
+          marginTop: 20,
+          backgroundColor: "#444",
+          padding: 12,
+          borderRadius: 8,
+        }}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={{ color: "#fff", textAlign: "center", fontWeight: "600" }}>
+          Back to Profile
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 }
-
-const Separator = () => <View style={styles.sep} />;
-
-const styles = StyleSheet.create({
-  safe: { flex: 1},
-  container: { flex: 1 },
-  content: {
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.xxl + spacing.xl,
-  },
-  sep: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: palette.border,
-    opacity: 0.9,
-    marginLeft: spacing.lg,
-  },
-});

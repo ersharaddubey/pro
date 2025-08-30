@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   TouchableOpacity,
   FlatList,
@@ -10,11 +9,11 @@ import {
   Share,
 } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { palette, spacing, typography, radius } from "../Components/theme";
 
 const { width } = Dimensions.get("window");
 
-const IMAGE_URL = "https://cdn.pixabay.com/photo/2025/03/13/10/50/fall-9467534_1280.jpg";
+const IMAGE_URL =
+  "https://cdn.pixabay.com/photo/2025/03/13/10/50/fall-9467534_1280.jpg";
 
 const sliderImages = [
   { id: "1", image: IMAGE_URL },
@@ -60,7 +59,7 @@ export default function Audiot() {
   const renderSection = ({ item }) => {
     if (item.type === "slider") {
       return (
-        <View style={styles.sliderWrapper}>
+        <View className="mb-6 relative">
           <FlatList
             data={sliderImages}
             horizontal
@@ -68,20 +67,33 @@ export default function Audiot() {
             showsHorizontalScrollIndicator={false}
             keyExtractor={(it) => it.id}
             renderItem={({ item }) => (
-              <Image source={{ uri: item.image }} style={styles.sliderImage} />
+              <Image
+                source={{ uri: item.image }}
+                style={{ width: width - 20, height: 200 }}
+                className="rounded-xl mr-2"
+              />
             )}
           />
-          <View style={styles.sliderOverlay}>
-            <View style={styles.row}>
-              <TouchableOpacity style={styles.subscribeBtn}>
-                <FontAwesome name="crown" size={18} color={palette.textDark || "#222"} />
-                <Text style={styles.subscribeText}>Subscribe Now</Text>
+
+          {/* Overlay */}
+          <View className="absolute top-[40%] w-full flex-row justify-center">
+            <View className="flex-row items-center bg-black/60 px-3 py-2 rounded-full">
+              {/* Subscribe Button */}
+              <TouchableOpacity className="flex-row items-center bg-white rounded-full px-4 py-2 mr-2">
+                <FontAwesome name="crown" size={18} color="#000" />
+                <Text className="text-black font-semibold ml-2">
+                  Subscribe Now
+                </Text>
               </TouchableOpacity>
+
+              {/* Share Button */}
               <TouchableOpacity
-                style={styles.shareBtn}
-                onPress={() => Share.share({ message: "Check out Hungama OTT!" })}
+                className="bg-red-600 rounded-full p-2"
+                onPress={() =>
+                  Share.share({ message: "Check out Hungama OTT!" })
+                }
               >
-                <Ionicons name="share-social" size={20} color={palette.text || "#fff"} />
+                <Ionicons name="share-social" size={20} color="#fff" />
               </TouchableOpacity>
             </View>
           </View>
@@ -91,21 +103,24 @@ export default function Audiot() {
 
     if (item.type === "languages") {
       return (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{item.title}</Text>
+        <View className="mb-6">
+          <Text className="text-white text-lg font-bold mb-3">
+            {item.title}
+          </Text>
           <FlatList
             data={chunkArray(languages, 3)}
             horizontal
             showsHorizontalScrollIndicator={false}
-            keyExtractor={(it, i) => `lang-${i}`}
+            keyExtractor={(_, i) => `lang-${i}`}
             renderItem={({ item: langChunk }) => (
-              <View style={styles.langSlide}>
+              <View style={{ width: width - 20 }} className="flex-row justify-evenly">
                 {langChunk.map((lang) => (
                   <View
                     key={lang.id}
-                    style={[styles.langCard, { backgroundColor: lang.color }]}
+                    style={{ backgroundColor: lang.color }}
+                    className="w-[100px] h-[70px] rounded-lg justify-center items-center m-1"
                   >
-                    <Text style={styles.langText}>{lang.name}</Text>
+                    <Text className="text-white font-bold">{lang.name}</Text>
                   </View>
                 ))}
               </View>
@@ -115,39 +130,24 @@ export default function Audiot() {
       );
     }
 
-    if (item.type === "movies") {
+    if (item.type === "movies" || item.type === "games") {
       return (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{item.title}</Text>
+        <View className="mb-6">
+          <Text className="text-white text-lg font-bold mb-3">
+            {item.title}
+          </Text>
           <FlatList
             data={games}
             horizontal
             keyExtractor={(it) => it.id}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => (
-              <View style={styles.gameCard}>
-                <Image source={{ uri: item.image }} style={styles.gameImage} />
-                <Text style={styles.gameText}>{item.name}</Text>
-              </View>
-            )}
-          />
-        </View>
-      );
-    }
-
-    if (item.type === "games") {
-      return (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{item.title}</Text>
-          <FlatList
-            data={games}
-            horizontal
-            keyExtractor={(it) => it.id}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.gameCard}>
-                <Image source={{ uri: item.image }} style={styles.gameImage} />
-                <Text style={styles.gameText}>{item.name}</Text>
+              <View className="mr-4 w-[180px]">
+                <Image
+                  source={{ uri: item.image }}
+                  className="w-full h-[120px] rounded-lg"
+                />
+                <Text className="text-white mt-2 text-sm">{item.name}</Text>
               </View>
             )}
           />
@@ -164,85 +164,7 @@ export default function Audiot() {
       keyExtractor={(item) => item.id}
       renderItem={renderSection}
       showsVerticalScrollIndicator={false}
-      style={styles.container}
+      className="bg-black flex-1 px-3"
     />
   );
 }
-
-const styles = StyleSheet.create({
-  sliderWrapper: { position: "relative", marginBottom: spacing.lg || 20 },
-  sliderImage: {
-    width: width - (spacing.lg || 20),
-    height: 200,
-    borderRadius: radius.md || 12,
-    marginRight: spacing.sm || 10,
-  },
-  sliderOverlay: {
-    position: "absolute",
-    top: "40%",
-    left: spacing.lg || 0,
-    right: spacing.lg || 0,
-    alignItems: "center",
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.6)",
-    padding: spacing.sm || 8,
-    borderRadius: radius.pill || 30,
-  },
-  subscribeBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: palette.card || "#fff",
-    borderRadius: radius.pill || 20,
-    paddingVertical: spacing.xs || 6,
-    paddingHorizontal: spacing.md || 14,
-    marginRight: spacing.sm || 10,
-  },
-  subscribeText: {
-    color: palette.textDark || "#222",
-    marginLeft: spacing.xs || 7,
-    fontWeight: typography.weightSemi || "600",
-    fontSize: typography.body || 15,
-  },
-  shareBtn: {
-    backgroundColor: palette.accent || "#e50914",
-    borderRadius: radius.pill || 20,
-    padding: spacing.sm || 9,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  section: { marginBottom: spacing.lg || 20 },
-  sectionTitle: {
-    color: palette.text || "#fff",
-    fontSize: typography.h2 || 18,
-    fontWeight: typography.weightBold || "bold",
-    marginBottom: spacing.sm || 10,
-  },
-  gameCard: { marginRight: spacing.md || 15, width: 180 },
-  gameImage: { width: "100%", height: 120, borderRadius: radius.md || 10 },
-  gameText: {
-    color: palette.text || "#fff",
-    marginTop: spacing.xs || 6,
-    fontSize: typography.small || 14,
-  },
-  langSlide: {
-    width: width - (spacing.lg || 20),
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
-  langCard: {
-    width: width / 3.5,
-    height: 70,
-    borderRadius: radius.md || 10,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: spacing.xs || 5,
-  },
-  langText: {
-    color: palette.text || "#fff",
-    fontSize: typography.body || 16,
-    fontWeight: typography.weightBold || "700",
-  },
-});

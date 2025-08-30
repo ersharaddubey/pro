@@ -10,7 +10,7 @@ import {
   Share,
 } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { palette, spacing, typography, radius } from "../Components/theme";
+
 
 const { width } = Dimensions.get("window");
 

@@ -6,39 +6,32 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
-  StyleSheet,
   Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome5, Ionicons } from "react-native-vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { palette, spacing, typography, radius } from "../Components/theme";
 
 const { width } = Dimensions.get("window");
 
 function SubscribeShareButtons() {
   return (
-    <View style={styles.row}>
-      <TouchableOpacity
-        style={styles.subscribeBtn}
-        accessibilityLabel="Subscribe now"
-        accessibilityRole="button"
-      >
-        <FontAwesome5 name="crown" size={18} color={palette.textDark || "#222"} />
-        <Text style={styles.subscribeText}>Subscribe Now</Text>
+    <View className="flex-row items-center bg-black/60 px-3 py-2 rounded-full">
+      <TouchableOpacity className="flex-row items-center bg-white rounded-full px-4 py-2 mr-3">
+        <FontAwesome5 name="crown" size={18} color="#222" />
+        <Text className="ml-2 text-black font-semibold text-base">
+          Subscribe Now
+        </Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.shareBtn}
-        accessibilityLabel="Share content"
-        accessibilityRole="button"
-      >
-        <Ionicons name="share-social" size={20} color={palette.text || "#fff"} />
+      <TouchableOpacity className="bg-red-600 rounded-full p-2">
+        <Ionicons name="share-social" size={20} color="#fff" />
       </TouchableOpacity>
     </View>
   );
 }
 
-const IMAGE_URL = "https://cdn.pixabay.com/photo/2025/03/13/10/50/fall-9467534_1280.jpg";
+const IMAGE_URL =
+  "https://cdn.pixabay.com/photo/2025/03/13/10/50/fall-9467534_1280.jpg";
 
 const sliderImages = [
   { id: "1", image: IMAGE_URL },
@@ -52,26 +45,13 @@ const sections = [
     items: [
       { id: "1", title: "WTF is with Nikhil", author: "Nikhil Kamath", image: IMAGE_URL },
       { id: "2", title: "Poetry Sessions", author: "Nevadit Chaudhary", image: IMAGE_URL },
-      { id: "3", title: "WTF is with Nikhil", author: "Nikhil Kamath", image: IMAGE_URL },
-      { id: "4", title: "Poetry Sessions", author: "Nevadit Chaudhary", image: IMAGE_URL },
     ],
   },
   {
     section: "Your Next Watch",
     items: [
-      { id: "1", title: "WTF is with Nikhil", author: "Nikhil Kamath", image: IMAGE_URL },
-      { id: "2", title: "Poetry Sessions", author: "Nevadit Chaudhary", image: IMAGE_URL },
-      { id: "3", title: "WTF is with Nikhil", author: "Nikhil Kamath", image: IMAGE_URL },
-      { id: "4", title: "Poetry Sessions", author: "Nevadit Chaudhary", image: IMAGE_URL },
-    ],
-  },
-  {
-    section: "Trending Now",
-    items: [
-      { id: "1", title: "WTF is with Nikhil", author: "Nikhil Kamath", image: IMAGE_URL },
-      { id: "2", title: "Poetry Sessions", author: "Nevadit Chaudhary", image: IMAGE_URL },
-      { id: "3", title: "WTF is with Nikhil", author: "Nikhil Kamath", image: IMAGE_URL },
-      { id: "4", title: "Poetry Sessions", author: "Nevadit Chaudhary", image: IMAGE_URL },
+      { id: "3", title: "Another Show", author: "Someone", image: IMAGE_URL },
+      { id: "4", title: "More Poetry", author: "Author", image: IMAGE_URL },
     ],
   },
 ];
@@ -80,30 +60,25 @@ export default function MainHome() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
 
-  console.log("MainHome insets:", insets);
-
   const renderSection = ({ item }) => {
     if (item.type === "slider") {
       return (
-        <View style={[styles.sliderWrapper, { paddingHorizontal: spacing.lg || 10 }]}>
+        <View className="mb-5 px-4">
           <FlatList
             data={sliderImages}
             horizontal
             pagingEnabled
             keyExtractor={(it) => it.id}
             showsHorizontalScrollIndicator={false}
-            initialNumToRender={3}
-            windowSize={5}
             renderItem={({ item }) => (
               <Image
                 source={{ uri: item.image }}
-                style={[styles.sliderImage, { width: width - (spacing.lg || 20) }]}
-                defaultSource={require('../assets/fallback-image.png')}
-                onError={(e) => console.log("Slider image load error:", e.nativeEvent.error)}
+                style={{ width: width - 32, height: 200 }}
+                className="rounded-xl"
               />
             )}
           />
-          <View style={styles.sliderOverlay}>
+          <View className="absolute top-[40%] left-4 right-4 items-center">
             <SubscribeShareButtons />
           </View>
         </View>
@@ -111,36 +86,30 @@ export default function MainHome() {
     }
 
     return (
-      <View style={[styles.sectionWrapper, { paddingHorizontal: spacing.lg || 10 }]}>
-        <Text style={styles.sectionTitle}>{item.section}</Text>
+      <View className="my-3 px-4">
+        <Text className="text-white text-lg font-bold mb-2">
+          {item.section}
+        </Text>
         <FlatList
           horizontal
           data={item.items}
           keyExtractor={(it) => `${item.section}-${it.id}`}
-          initialNumToRender={4}
-          windowSize={5}
           renderItem={({ item: it }) => (
             <TouchableOpacity
-              style={[styles.card, { width: (width - 40) / 3 }]}
-              onPress={() => {
-                console.log("Navigating to ViewDetails with item:", it);
-                navigation.navigate("ViewDetails", { item: it });
-              }}
-              accessibilityLabel={`View details for ${it.title}`}
-              accessibilityRole="button"
+              className="mr-3 w-32"
+              onPress={() => navigation.navigate("ViewDetails", { item: it })}
             >
               <Image
                 source={{ uri: it.image }}
-                style={styles.image}
-                defaultSource={require('../assets/fallback-image.png')}
-                onError={(e) => console.log("Card image load error:", e.nativeEvent.error)}
+                className="w-full h-36 rounded-lg"
               />
-              <Text style={styles.title}>{it.title}</Text>
-              <Text style={styles.author}>{it.author}</Text>
+              <Text className="text-white font-semibold mt-1" numberOfLines={1}>
+                {it.title}
+              </Text>
+              <Text className="text-gray-400 text-xs">{it.author}</Text>
             </TouchableOpacity>
           )}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: spacing.xs || 5 }}
         />
       </View>
     );
@@ -149,93 +118,14 @@ export default function MainHome() {
   const listData = [{ type: "slider", id: "slider" }, ...sections];
 
   return (
-    <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
+    <SafeAreaView style={{ paddingTop: insets.top }} className="flex-1 bg-black">
       <FlatList
         data={listData}
         keyExtractor={(item, index) => item.id || index.toString()}
         renderItem={renderSection}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.contentContainer, { paddingBottom: insets.bottom }]}
+        contentContainerStyle={{ paddingBottom: insets.bottom }}
       />
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: palette.bg || "#000",
-  },
-  contentContainer: {
-    padding: spacing.lg || 10,
-  },
-  sliderWrapper: {
-    marginBottom: spacing.lg || 20,
-  },
-  sliderImage: {
-    height: 200,
-    borderRadius: radius.md || 12,
-  },
-  sliderOverlay: {
-    position: "absolute",
-    top: "40%",
-    left: spacing.lg || 10,
-    right: spacing.lg || 10,
-    alignItems: "center",
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.6)",
-    padding: spacing.sm || 8,
-    borderRadius: radius.pill || 30,
-  },
-  subscribeBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: palette.card || "#fff",
-    borderRadius: radius.pill || 20,
-    paddingVertical: spacing.xs || 6,
-    paddingHorizontal: spacing.md || 14,
-    marginRight: spacing.sm || 10,
-  },
-  subscribeText: {
-    color: palette.textDark || "#222",
-    marginLeft: spacing.xs || 7,
-    fontWeight: typography.weightSemi || "600",
-    fontSize: typography.body || 15,
-  },
-  shareBtn: {
-    backgroundColor: palette.accent || "#e50914",
-    borderRadius: radius.pill || 20,
-    padding: spacing.sm || 9,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  sectionWrapper: {
-    marginVertical: spacing.sm || 10,
-  },
-  sectionTitle: {
-    color: palette.text || "white",
-    fontSize: typography.h2 || 18,
-    fontWeight: typography.weightBold || "bold",
-    marginBottom: spacing.xs || 5,
-  },
-  card: {
-    marginHorizontal: spacing.xs || 5,
-  },
-  image: {
-    width: "100%",
-    height: 140,
-    borderRadius: radius.md || 10,
-  },
-  title: {
-    color: palette.text || "white",
-    fontWeight: typography.weightSemi || "600",
-    marginTop: spacing.xs || 5,
-  },
-  author: {
-    color: palette.textDim || "gray",
-    fontSize: typography.small || 12,
-  },
-});

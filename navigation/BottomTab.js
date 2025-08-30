@@ -1,21 +1,56 @@
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { LinearGradient } from "expo-linear-gradient";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { styled } from "nativewind";
+
+// Screens
 import DiscoverScreen from "../screens/DiscoverScreen";
 import VideosScreen from "../screens/VideosScreen";
 import Library from "../screens/Library";
 import Audio from "../screens/Audio";
-import { Ionicons } from "react-native-vector-icons";
-import { palette } from "../theme";
+
+// Colors
+import colors from "../constants/colors";
 
 const BottomTab = createBottomTabNavigator();
+const StyledLinear = styled(LinearGradient);
+
+// ✅ Custom Tab Bar Button with Tailwind
+const CustomTabBarButton = ({ children, onPress, accessibilityState }) => {
+  const focused = accessibilityState.selected;
+
+  return (
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress} className="flex-1">
+      <StyledLinear
+        colors={
+          focused
+            ? [colors.accent, "#FF9500"]
+            : [colors.background, colors.background]
+        }
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        className="flex-1 items-center justify-center"
+      >
+        {children}
+      </StyledLinear>
+    </TouchableOpacity>
+  );
+};
 
 export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: palette.accent || "#fff",
-        tabBarInactiveTintColor: palette.textDim || "gray",
         headerShown: false,
+        tabBarActiveTintColor: colors.white,
+        tabBarInactiveTintColor: colors.textDim,
+        tabBarStyle: {
+          backgroundColor: colors.background,
+          borderTopWidth: 0,
+          height: 60,
+        },
         tabBarIcon: ({ color }) => {
           let iconName;
           if (route.name === "Discover") iconName = "compass-outline";
@@ -24,6 +59,7 @@ export default function BottomTabNavigator() {
           else if (route.name === "Library") iconName = "library-outline";
           return <Ionicons name={iconName} size={22} color={color} />;
         },
+        tabBarButton: (props) => <CustomTabBarButton {...props} />,
       })}
     >
       <BottomTab.Screen name="Discover" component={DiscoverScreen} />

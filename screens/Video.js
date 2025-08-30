@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons"; 
-import { palette, spacing, typography, radius } from "../Components/theme";
 const { width } = Dimensions.get("window");
 
 

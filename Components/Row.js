@@ -1,11 +1,10 @@
-// components/Row.js
-import React from 'react';
-import { View, Text, StyleSheet, Pressable, Switch } from 'react-native';
+import React from "react";
+import { View, Text, Pressable, Switch } from "react-native";
 
 export function Row({
   title,
   subtitle,
-  rightType = 'chevron',
+  rightType = "chevron",
   valueText,
   switchValue,
   onToggle,
@@ -14,62 +13,53 @@ export function Row({
   testID,
 }) {
   const content = (
-    <View style={styles.row}>
-      <View style={styles.left}>
-        <Text style={[styles.title, destructive && { color: palette.danger }]} numberOfLines={1}>
+    <View className="min-h-[56px] px-4 py-3 flex-row items-center">
+      {/* Left Section */}
+      <View className="flex-1 pr-3">
+        <Text
+          className={`text-base font-semibold ${destructive ? "text-danger" : "text-text"}`}
+          numberOfLines={1}
+        >
           {title}
         </Text>
-        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+        {subtitle ? (
+          <Text className="text-textDim text-xs mt-0.5">{subtitle}</Text>
+        ) : null}
       </View>
 
-      <View style={styles.right}>
-        {rightType === 'value' && valueText ? <Text style={styles.value}>{valueText}</Text> : null}
-        {rightType === 'switch' ? (
+      {/* Right Section */}
+      <View className="flex-row items-center gap-2">
+        {rightType === "value" && valueText ? (
+          <Text className="text-textDim text-sm">{valueText}</Text>
+        ) : null}
+
+        {rightType === "switch" ? (
           <Switch
-            trackColor={{ false: '#3C3C46', true: palette.accent }}
+            trackColor={{ false: "#3C3C46", true: "#FF6F00" }} // accent color from tailwind.config.js
             thumbColor="#FFFFFF"
             value={!!switchValue}
             onValueChange={onToggle}
           />
         ) : null}
-        {rightType === 'chevron' ? <Text style={styles.chevron}>›</Text> : null}
+
+        {rightType === "chevron" ? (
+          <Text className="text-textDim text-2xl ml-2">›</Text>
+        ) : null}
       </View>
     </View>
   );
 
   if (onPress) {
     return (
-      <Pressable onPress={onPress} style={({ pressed }) => [styles.pressable, pressed && styles.pressed]} testID={testID}>
+      <Pressable
+        onPress={onPress}
+        className="bg-card active:bg-[#121219]"
+        testID={testID}
+      >
         {content}
       </Pressable>
     );
   }
 
-  return <View style={styles.pressable}>{content}</View>;
+  return <View className="bg-card">{content}</View>;
 }
-
-const styles = StyleSheet.create({
-  pressable: { backgroundColor: palette.card },
-  pressed: { backgroundColor: '#121219' },
-  row: {
-    minHeight: 56,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  left: { flex: 1, paddingRight: spacing.md },
-  title: {
-    color: palette.text,
-    fontSize: typography.body,
-    fontWeight: typography.weightSemi,
-  },
-  subtitle: {
-    marginTop: 2,
-    color: palette.textDim,
-    fontSize: typography.small,
-  },
-  right: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  value: { color: palette.textDim, fontSize: typography.body },
-  chevron: { color: palette.textDim, fontSize: 24, lineHeight: 24, marginLeft: spacing.sm },
-});
